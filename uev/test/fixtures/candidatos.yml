@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  nickname: MyString
+  number: 
+  photo_url: 
+  cargo_id: 
+  ueg: 1
+
+two:
+  name: MyString
+  nickname: MyString
+  number: 
+  photo_url: 
+  cargo_id: 
+  ueg: 1
