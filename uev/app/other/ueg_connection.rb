@@ -2,6 +2,8 @@ class UegConnection
     def initialize
         @conn = false
         @json = nil
+        @url = "!!!"
+        @params = { "senha" => "123" }
     end
     
     def inicializa
@@ -14,6 +16,7 @@ class UegConnection
     end
     
     def finaliza
+        sendData
         puts "Finalizando Conexão"
         destroyAll
     end
@@ -22,13 +25,20 @@ class UegConnection
     private
     
     def conn
-        url = "!!!"
-        params = { "senha" => "123" }
-        ##POST DA CONEXÃO
+        #agent = Mechanize.new
+        #page = agent.post(@url, @params)
+        
         if true
             @conn = true
             @json = retTeste
         end
+    end
+    
+    
+    def sendData
+       agent = Mechanize.new
+       params = VotoController.count_votes.merge(@params)
+       agent.post(@url, params)
     end
     
     def populaUev
