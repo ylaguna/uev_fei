@@ -8,4 +8,9 @@ class EleitorController < ApplicationController
     def self.drop_list
         Eleitor.all.delete_all
     end
+    
+    def self.away_list
+        arr = Eleitor.where(status: 0).select(:doc).map do |_eleitor| _eleitor.doc end
+        {"ausentes" => arr}
+    end
 end

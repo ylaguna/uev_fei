@@ -16,11 +16,10 @@ class UegConnection
     end
     
     def finaliza
-        sendData
+        sendData(get_data)
         puts "Finalizando Conexão"
         destroyAll
     end
-    
     
     private
     
@@ -35,10 +34,14 @@ class UegConnection
     end
     
     
-    def sendData
-       agent = Mechanize.new
-       params = VotoController.count_votes.merge(@params)
-       agent.post(@url, params)
+    def get_data
+        params = VotoController.count_votes.merge(@params)
+        params.merge!(EleitorController.away_list)
+        params
+    end
+    
+    def sendData(json)
+        #ENVIA DADOS
     end
     
     def populaUev
