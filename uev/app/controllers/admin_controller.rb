@@ -34,4 +34,29 @@ class AdminController < ApplicationController
             puts "nao conectado"
         end
     end
+    
+    def index 
+        initialize
+    end
+    
+    def login
+        user =  params["admin"]["username"]
+        pass =  params["admin"]["password"]
+        
+        conn = conn(user, pass)
+        if conn == 'ok'
+            UevConfig.first.update_attribute(:status , 1)
+        else
+            UevConfig.first.update_attribute(:status, -1)
+        end
+        
+       
+        respond_to do |format|
+            format.html { render :text => conn  }
+        end
+    end
+    
+    def painel
+        @status = UevConfig.first.status
+    end
 end

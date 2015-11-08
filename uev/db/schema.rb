@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151026224830) do
+ActiveRecord::Schema.define(version: 20151102174904) do
 
   create_table "admins", force: :cascade do |t|
     t.string   "user"
@@ -47,6 +47,11 @@ ActiveRecord::Schema.define(version: 20151026224830) do
     t.integer  "ueg"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "uev_configs", force: :cascade do |t|
+    t.integer "status"
+    t.string  "desc"
   end
 
   create_table "votos", force: :cascade do |t|

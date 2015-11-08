@@ -1,0 +1,24 @@
+%div#profile
+    %h3 Bem Vindo.
+    
+    %table
+        %tr
+            %th{rowspan: "5"}
+                %img(src = "#{@eleitor.photo}")
+            %td
+                Nome: 
+                = @eleitor.name
+                %br
+                Documento: 
+                = @eleitor.doc
+                %br
+                Situação:
+                = @eleitor.situation
+        
+        %tr
+            %td
+                - if @eleitor.status == 0
+                    %button Iniciar Votação
+                - else
+                    = button_to "Retornar", "/eleitor", {method: 'get'}
+        
