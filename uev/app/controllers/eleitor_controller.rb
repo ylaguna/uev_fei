@@ -28,4 +28,20 @@ class EleitorController < ApplicationController
             redirect_to '/eleitor'
         end
     end
+    
+    def vote
+        @cargos = Cargo.all
+    end
+    
+    def get_candidato
+        @candidato = Candidato.where(ueg: params["ueg_id"], number: params["number"]).first
+        unless @candidato.blank?
+            render json: {
+                "name" => @candidato.name,
+                "photo" => @candidato.photo_url
+            }
+        else
+            render json: 'not_found'
+        end
+    end
 end

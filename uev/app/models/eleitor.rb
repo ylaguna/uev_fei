@@ -9,4 +9,5 @@ class Eleitor < ActiveRecord::Base
         return blank_photo if self.photo_url.blank?
         self.photo_url
     end
+    
 end

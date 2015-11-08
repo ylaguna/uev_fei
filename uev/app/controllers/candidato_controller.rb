@@ -1,7 +1,7 @@
 class CandidatoController < ApplicationController
     def self.create_list(candidatos)
         candidatos.each do |c|
-            Candidato.create(name: c[:nome], nickname: c[:apelido], number: c[:numero], photo_url: [:foto], ueg: c[:id_cargo])
+            Candidato.create(name: c[:nome], nickname: c[:apelido], number: c[:numero], photo_url: c[:foto], ueg: c[:id_cargo])
         end
     end
     

@@ -10,7 +10,12 @@ Rails.application.routes.draw do
   get 'admin/painel'
   
   get 'eleitor', to: 'eleitor#index'
+  get 'eleitor/get_candidato', to: 'eleitor#get_candidato'
   get 'eleitor/:doc', to: 'eleitor#profile'
+  get 'eleitor/:doc/vote', to: 'eleitor#vote'
+  
+  
+  
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
