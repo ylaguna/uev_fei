@@ -12,7 +12,10 @@ Rails.application.routes.draw do
   get 'eleitor', to: 'eleitor#index'
   get 'eleitor/get_candidato', to: 'eleitor#get_candidato'
   get 'eleitor/:doc', to: 'eleitor#profile'
+  get 'profile', to: 'eleitor#profile'
   get 'eleitor/:doc/vote', to: 'eleitor#vote'
+  
+  post 'eleitor/:doc/vote', to: 'eleitor#sendVote'
   
   
   

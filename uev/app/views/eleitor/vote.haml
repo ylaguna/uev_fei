@@ -1,12 +1,14 @@
-- @cargos.each do |_cargo|
-    %h3
-        = _cargo.name
-        %br
-        %div{ueg: "#{_cargo.ueg}"}
-            %input.onlyNumbers
-            %button.btn_vote Go
+%form#form{ :controller => 'eleitor', :action => 'vote', :method => 'post' }
+    - @cargos.each do |_cargo|
+        %h3
         
-%div#confirm_tab
+            %div.cargo{ueg: "#{_cargo.ueg}"}
+                %br
+                = _cargo.name
+                %input.onlyNumbers#input{name: "candidato_#{_cargo.ueg}"}
+                %button.btn_vote{type: "button"} Go 
+        
+%div#confirm_tab{:style => "height: 300px; width: 300px"}
     Confirme a sua escolha:
     %br
     %table
@@ -16,36 +18,66 @@
                 %img#photo{:style => "height: 300px; width: 300px"}/
         
             
-            %td 
-                %input#name
+            %td
+            
+                %input#name{disabled: 'disabled'}
+                %button#btn_confirm Confirma
+
+%div#error
+    %h3
+        Ocorreu um erro, tente novamente
+        
+%div#loading{:style => "margin: 150px;"}
+    %br
+    %img{src: "http://pradoinoxequipamentos.com.br/img/loading.gif"}
 
 
 :javascript
 
 $(document).ready(function() {
-
+    var step = 1;
+    var size = $(".cargo").last().attr("ueg"); 
+    $(".cargo[ueg!=1]").hide();
     $("#confirm_tab").hide();
+    $("#loading").hide();
+    $("#error").hide();
     $(".btn_vote").click(function(){
-        ueg_id = this.parentElement.getAttribute('ueg')
-        nbr    = $(this.parentElement.children[0]).val()
+        $("#loading").show();
+        ueg_id = $(".cargo:visible").attr("ueg");
+        nbr    = $(".cargo:visible input").val();
         
         $("#confirm_tab").hide();
-        console.log("cargo => " + ueg_id + " number =>" + nbr)
+        console.log("cargo => " + ueg_id + " numbera =>" + nbr)
+        
         // ajax
         $.ajax({
             url: "/eleitor/get_candidato",
             type: 'GET',
             data: {ueg_id: ueg_id, number: nbr}
         }).done(function(e){
-            if(e != "not_found"){
+            $("#loading").hide();
+            if( e["status"] === 1){
                 $("#photo").attr('src', e["photo"]);
                 $("#name").val(e["name"]);
                 $("#confirm_tab").show();
-            } 
+            } else { $("#error").show(); }
         });
+        
+        
     });
 
 
+    $("#btn_confirm").click(function(){
+        step++;
+        
+        // size is a str
+        if( step <= size){
+            $("div[ueg!=" + step + "]").hide();
+            $("div[ueg="  + step + "]").show();
+        } else {
+            $("#form").submit();
+        }
+    });
 
     $(".onlyNumbers").keydown(function (e) {
         // Allow: backspace, delete, tab, escape, enter and .

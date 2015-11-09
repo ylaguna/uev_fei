@@ -1,8 +1,9 @@
-%center
-    %h2 Digite o número de documento
-    %input#doc{size: 10, maxlength: 10, class: 'onlyNumbers'}
-    %button Acessar
-    %br
+%form#form{ :controller => 'eleitor', :action => 'profile', :method => 'get' }
+    %center
+        %h2 Digite o número de documento
+        %input{size: 10, maxlength: 10, class: 'onlyNumbers', name: "doc"}
+        %button Acessar
+        %br
     
 - if flash[:notice]
     %div

@@ -18,7 +18,7 @@
         %tr
             %td
                 - if @eleitor.status == 0
-                    %button Iniciar Votação
+                    = button_to "Iniciar Votação", "/eleitor/#{@eleitor.doc}/vote", {method: 'get'}
                 - else
                     = button_to "Retornar", "/eleitor", {method: 'get'}
         
