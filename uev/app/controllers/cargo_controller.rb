@@ -1,7 +1,7 @@
 class CargoController < ApplicationController
     def self.create_list(cargos)
         cargos.each do |c|
-            Cargo.create(name: c[:nome], ueg: c[:id])
+            Cargo.create(name: c["nome"], ueg: c["id"])
         end
     end
     

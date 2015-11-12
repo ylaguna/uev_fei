@@ -2,8 +2,8 @@ class UegConnection
     def initialize
         @conn = false
         @json = nil
-        @url = "!!!"
-        @params = { "senha" => "123" }
+        @url = "http://52.23.228.201/index.php/solicitaDados"
+        @params = { "senha" => "uev1" }
     end
     
     def inicializa
@@ -24,12 +24,15 @@ class UegConnection
     private
     
     def conn
-        #agent = Mechanize.new
-        #page = agent.post(@url, @params)
+        #conexao com a uev
+        ret = HTTParty.post(@url, 
+            :body =>  @params.to_json,  
+            :headers => { 'Content-Type' => 'application/json', 'charset' => 'UTF-8'})
         
+        @json = JSON.parse(ret.parsed_response.force_encoding("ISO-8859-1").encode("UTF-8"))
         if true
             @conn = true
-            @json = retTeste
+            #@json = retTeste
         end
     end
     
@@ -46,9 +49,10 @@ class UegConnection
     
     def populaUev
         puts "Populando UEV"
-        CargoController.create_list(@json[:cargos])
-        CandidatoController.create_list(@json[:candidatos])
-        EleitorController.create_list(@json[:eleitores])
+        
+        CargoController.create_list(@json["cargos"])
+        CandidatoController.create_list(@json["candidatos"])
+        EleitorController.create_list(@json["eleitores"])
     end
     
     def destroyAll
