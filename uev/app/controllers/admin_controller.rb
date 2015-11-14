@@ -1,4 +1,5 @@
 class AdminController < ApplicationController
+    skip_before_filter :verify_authenticity_token 
     
     def initialize
         @user   = nil
@@ -12,27 +13,23 @@ class AdminController < ApplicationController
         
         @user   = search.first
         @active = true
+        
+       # inicializa
+        
         return "ok"
     end
     
     def inicializa
-        if @active
-            puts "o usuario #{@user.user} deseja comecar uma conexao"
+        @ueg = UegConnection.new
+        @ueg.inicializa
             
-            @ueg.inicializa
-            
-            puts "ueg inicializada"
-        else
-            puts "nao conectado"
-        end
+        puts "ueg inicializada"
+       
     end
     
     def finaliza
-        if @active
-            @ueg.finaliza
-        else
-            puts "nao conectado"
-        end
+        @ueg = UegConnection.new
+        @ueg.finaliza
     end
     
     def index 
@@ -45,18 +42,16 @@ class AdminController < ApplicationController
         
         conn = conn(user, pass)
         if conn == 'ok'
-            UevConfig.first.update_attribute(:status , 1)
+            @status_uev = UevConfig.first.status
         else
-            UevConfig.first.update_attribute(:status, -1)
-        end
-        
-       
-        respond_to do |format|
-            format.html { render :text => conn  }
+            respond_to do |format|
+                format.html { render :text => conn  }
+            end
         end
     end
     
-    def painel
-        @status = UevConfig.first.status
+    def iteract
+        params["status"].to_i == -1 ? inicializa : finaliza
+        render json: ['ok']
     end
 end

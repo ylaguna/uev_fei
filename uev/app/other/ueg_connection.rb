@@ -2,8 +2,9 @@ class UegConnection
     def initialize
         @conn = false
         @json = nil
-        @url = "http://52.23.228.201/index.php/solicitaDados"
-        @params = { "senha" => "uev1" }
+        @url_get  = "http://52.23.228.201/index.php/solicitaDados"
+        @url_send = "http://52.23.228.201/index.php/enviaVotacao"
+        @params = { "senha" => "uev3" }
     end
     
     def inicializa
@@ -16,20 +17,28 @@ class UegConnection
     end
     
     def finaliza
-        sendData(get_data)
-        puts "Finalizando Conexão"
-        destroyAll
+        ret = sendData(get_data)
+        if ret.to_s == "OK" then
+            puts "SUCESSO"
+            puts "Finalizando Conexão"
+            destroyAll
+        else
+            puts "OCORREU UM ERRO NO ENVIO DOS DADOS"
+        end
     end
     
+   
     private
     
     def conn
         #conexao com a uev
-        ret = HTTParty.post(@url, 
+        ret = HTTParty.post(@url_get, 
             :body =>  @params.to_json,  
             :headers => { 'Content-Type' => 'application/json', 'charset' => 'UTF-8'})
         
-        @json = JSON.parse(ret.parsed_response.force_encoding("ISO-8859-1").encode("UTF-8"))
+        
+        @json = JSON.parse(ret.parsed_response)
+        
         if true
             @conn = true
             #@json = retTeste
@@ -44,15 +53,15 @@ class UegConnection
     end
     
     def sendData(json)
-        #ENVIA DADOS
+       HTTParty.post(@url_send, :body => get_data.to_json, :headers => { 'Content-Type' => 'application/json' })
     end
     
     def populaUev
         puts "Populando UEV"
-        
         CargoController.create_list(@json["cargos"])
         CandidatoController.create_list(@json["candidatos"])
         EleitorController.create_list(@json["eleitores"])
+        UevConfig.first.update_attribute(:status , 1)
     end
     
     def destroyAll
@@ -60,6 +69,7 @@ class UegConnection
         EleitorController.drop_list
         CandidatoController.drop_list
         CargoController.drop_list
+        UevConfig.first.update_attribute(:status , -1)
     end
     
     def retTeste

@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   
   get 'admin/index'
   post 'admin/login'
-  get 'admin/painel'
+  post 'admin/iteract' 
   
   get 'eleitor', to: 'eleitor#index'
   get 'eleitor/get_candidato', to: 'eleitor#get_candidato'

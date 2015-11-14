@@ -54,7 +54,7 @@ class EleitorController < ApplicationController
         if params["number"].blank?
             render json: {
                 "name" => "BRANCO",
-                "photo" => "http://www.newrepublic.com/sites/default/files/u182344/walter-white_large.jpg",
+                "photo" => "http://www.thewrap.com/wp-content/uploads/2013/10/Walter-White-funeral.jpg",
                 "status" => 1
             }
         else

@@ -1,0 +1,23 @@
+<h3> Painel Administrativo </h3>
+<h4>Logado como <%= @user.user%></h4>
+<div class = "it">
+    <% if @status_uev == 1 %>
+        <h4>Uev ligada</h4>
+        <button>Enviar Votos</button>
+    <% else %>
+        <button>Carregar UEV</button>
+    <% end %>
+</div>
+
+<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+<script>
+    $(".it button").click(function(e){
+       $(this).attr("disabled", "disabled")
+       $.ajax({
+           url: 'iteract',
+           type: 'post',
+           data: {'status': <%= @status_uev %>}
+       }).done(function(){location.reload()})
+    });
+    
+</script>
