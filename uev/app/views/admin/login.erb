@@ -3,6 +3,7 @@
 <div class = "it">
     <% if @status_uev == 1 %>
         <h4>Uev ligada</h4>
+        <h4> Eleitores <%=Eleitor.where(status: 1).count%>/<%=Eleitor.count %></h4>
         <button>Enviar Votos</button>
     <% else %>
         <button>Carregar UEV</button>

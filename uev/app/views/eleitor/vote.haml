@@ -56,11 +56,13 @@ $(document).ready(function() {
             data: {ueg_id: ueg_id, number: nbr}
         }).done(function(e){
             $("#loading").hide();
-            if( e["status"] === 1){
-                $("#photo").attr('src', e["photo"]);
-                $("#name").val(e["name"]);
-                $("#confirm_tab").show();
-            } else { $("#error").show(); }
+            if( e["status"] === 99){
+                $(".cargo:visible input").val("nulo");
+            }
+            $("#photo").attr('src', e["photo"]);
+            $("#name").val(e["name"]);
+            $("#confirm_tab").show();
+            
         });
         
         

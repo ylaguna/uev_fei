@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151102174904) do
+ActiveRecord::Schema.define(version: 20151114205854) do
 
   create_table "admins", force: :cascade do |t|
     t.string   "user"
@@ -56,6 +56,7 @@ ActiveRecord::Schema.define(version: 20151102174904) do
 
   create_table "votos", force: :cascade do |t|
     t.integer "value"
+    t.integer "cargo_id"
   end
 
 end

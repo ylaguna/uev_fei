@@ -43,7 +43,10 @@ class EleitorController < ApplicationController
        Cargo.count.times do |_c|
         idx = _c + 1
         vote = params["candidato_#{idx}"]
-        Voto.create(value: vote) unless vote.blank?
+        vote = -999 if vote == "nulo"
+        vote = -888 if vote.blank?
+        
+        Voto.create(value: vote, cargo_id: idx)
        end
        
        eleitor.update_attribute(:status, 1)
@@ -69,7 +72,7 @@ class EleitorController < ApplicationController
                 render json: { 
                     'name' => 'NULO',
                     "photo" => "",
-                    "status" => 1
+                    "status" => 99
                 }
             end
         end

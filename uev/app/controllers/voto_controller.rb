@@ -15,10 +15,11 @@ class VotoController < ApplicationController
                 })
             end
             
-            #fazer
+            
+            
             json["votacao"]["#{id_cargo}"].merge!({
-                "branco" => 0,
-                "nulo" => 0
+                "branco" => Voto.where(value: -888, cargo_id: id_cargo).count,
+                "nulo" => Voto.where(value: -999, cargo_id: id_cargo).count
             })
         end
         
